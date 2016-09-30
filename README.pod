@@ -92,6 +92,11 @@ Update foreign packages in the AUR. Without any arguments, all manually
 installed packages will be updated. If I<target(s)> are supplied, only those
 packages will be updated.
 
+=item B<--clean>
+
+Rids the cache directory of files generated during building and/or packaging,
+keeping only the files tracked by git.
+
 =back
 
 =head2 General operations

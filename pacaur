@@ -1362,6 +1362,13 @@ Cancel() {
     exit
 }
 
+CleanCloneDir() {
+  for folder in "${clonedir}"/*
+  do
+    git --git-dir="${folder}/.git" --work-tree="${folder}" clean -ffdx
+  done
+}
+
 Usage() {
     printf "%s\n" $"usage:  pacaur <operation> [options] [target(s)] -- See also pacaur(8)"
     printf "%s\n" $"operations:"
@@ -1376,6 +1383,7 @@ Usage() {
     printf "%s\n" $"   -y, --sync       download, make and install target(s)"
     printf "%s\n" $"   -k, --check      check for AUR update(s)"
     printf "%s\n" $"   -u, --update     update AUR package(s)"
+    printf "%s\n" $"   --clean          clean the AUR cache of files created during build"
     printf "%s\n" $" general"
     printf "%s\n" $"   -v, --version    display version information"
     printf "%s\n" $"   -h, --help       display help information"
@@ -1451,6 +1459,7 @@ while [[ -n "${!OPTIND}" ]]; do
                     silent) silent=true; makeopts+=("--log");;
                     domain) aururl=${!OPTIND}; coweropts+=("--domain ${!OPTIND}"); shift;;
                     root) pacopts+=("--root ${!OPTIND}"); shift;;
+                    clean) CleanCloneDir; exit;;
                     version) Version; exit;;
                     help) Usage; exit;;
                     *) pacopts+=("--$OPTARG");;
